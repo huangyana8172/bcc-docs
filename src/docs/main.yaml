@@ -1,0 +1,9 @@
+openapi: 3.0.1
+info:
+  title: 員工級別的會員可以獲取其他用戶資料
+  version: 1.0.0
+servers:
+  - url: http://localhost:12345
+  - url: https://rd.jabezpos.com/api
+  - url: https://ec.jabezpos.com/api
+paths:

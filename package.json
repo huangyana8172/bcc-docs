@@ -1,0 +1,10 @@
+{
+  "name": "docs",
+  "version": "1.0.0",
+  "scripts": {
+    "deploy": "aws s3 sync ./src s3://swagger-bucket-2020-11-16 --acl public-read"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {}
+}

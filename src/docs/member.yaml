@@ -1,0 +1,283 @@
+openapi: 3.0.1
+info:
+  title: 會員雲
+  version: 1.0.0
+servers:
+  - url: http://localhost:12345
+  - url: https://rd.jabezpos.com/api
+  - url: https://ec.jabezpos.com/api
+paths:
+
+  # 註冊
+
+  /retailAPP_VIP/registerByVerifyID_member2:
+    post:
+      description: 全新的member2註冊API，不再註冊vipmf
+      tags:
+        - "註冊會員"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ADDRESS:
+                  type: string
+                  example: '高雄市左營區立文路77號11樓之2'
+                BIRTHDAY:
+                  type: string
+                  example: '20201116'
+                EMAIL:
+                  type: string
+                  example: 'zhihao@bethel.com.tw'
+                MOBILE:
+                  type: string
+                  example: '1241663467'
+                NAME:
+                  type: string
+                  example: '測試'
+                SEX:
+                  enum: ['F', 'M']
+                  example: 'M'
+                SITE:
+                  type: string
+                  example: 'PASTATP'
+                VERIFY_ID:
+                  type: string
+                  example: '1241663467'
+                VERIFY_PW:
+                  type: string
+                  example: '12345'
+                VIP_MEMO:
+                  type: string
+                  example: '123'
+                ZIP_CODE:
+                  type: string
+                  example: ''
+      responses:
+        200:
+          description: 如果result = OK代表成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                  msgCode:
+                    type: string
+                  msg:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      ID_NO:
+                        type: number
+  /retailAPP_VIP/registerByVerifyID_vip_db:
+    post:
+      description: 從member2抽出來的註冊vipmf api
+      tags:
+        - "註冊會員"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                SITE:
+                  type: string
+                  example: 'PASTATP'
+                NAME:
+                  type: string
+                  example: '測試'
+                SEX:
+                  enum: ['F', 'M']
+                  example: 'M'
+                BIRTHDAY:
+                  type: string
+                  example: '20201116'
+                TEL1:
+                  type: string
+                  example: '0900123456'
+                ADDRESS:
+                  type: string
+                  example: '高雄市左營區立文路77號11樓之2'
+                EMAIL:
+                  type: string
+                  example: 'aaaa@bethel.com.tw'
+                ZIP_CODE:
+                  type: string
+                  example: ''
+      responses:
+        200:
+          description: 如果result = OK代表成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                  msgCode:
+                    type: string
+                  msg:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      VIP_CODE:
+                        type: number
+  /retailAPPs_VIP/getMemberByAccount:
+    post:
+      description: 獲取會員的基本資料BY POS帳號
+      parameters:
+        - in: header
+          name: x-app-token
+          schema:
+            type: string
+          required: true
+          example: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MDQzMDczMDI5NDIsImRhdGEiOnsiSURfTk8iOm51bGwsIlZFUklGWV9UWVBFIjpudWxsLCJTRVgiOiIiLCJWSVBfQ09ERSI6IiIsIk5BTUUiOiJwb3NAZWNvYnVyZ2VyIiwiQklSVEhEQVkiOiIiLCJFTUFJTCI6ImhlbGVuQGJldGhlbC5jb20udHciLCJNT0JJTEUiOiIiLCJaSVBfQ09ERSI6IiIsIlBBWV9QV0RfRkxBRyI6bnVsbCwiTUVNQkVSX0xFVkVMIjoiIiwiU0lURSI6ImVjb2J1cmdlciIsIlNZU19MRVZFTCI6IlBPUyJ9fQ.QDl3F8b_TbCZv4rP1d6Hu3KgbrhGnXqKkT5gkhAbPYs'
+          description: POS帳號Token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                VIP_KEY:
+                  type: string
+                  example: '0911111111'
+      responses:
+        200:
+          description: Success
+  /member/sites/{SITE}/config:
+    get:
+      description: 獲取會員的基本資料BY POS帳號
+      parameters:
+        - in: path
+          name: SITE
+          schema:
+            type: string
+          required: true
+          example: PASTATP
+          description: Site名稱
+      responses:
+        200:
+          description: Success
+  /member/s/sites/{SITE}/transStatistics:
+    get:
+      description: 獲取會員的消費紀錄統計
+      parameters:
+        - in: query
+          name: start_index
+          schema:
+            type: string
+          required: false
+          example: 0
+          description: 起始位置
+        - in: path
+          name: SITE
+          schema:
+            type: string
+          required: true
+          example: PASTATP
+          description: Site名稱
+        - in: header
+          name: x-app-token
+          schema:
+            type: string
+          required: true
+          example: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MDY3MDE3MzQzMzAsImRhdGEiOnsiSURfTk8iOjExNjU1LCJWRVJJRllfVFlQRSI6NiwiU0VYIjoiRiIsIlZJUF9DT0RFIjoiMDAwMDAwMDAwMSIsIk5BTUUiOiJ5YW5hIiwiQklSVEhEQVkiOiIyMDAwMDEwMSIsIkVNQUlMIjoieWFuYUBiZXRoZWwuY29tLnR3IiwiTU9CSUxFIjoiMDkyOTg2NTU4OCIsIlpJUF9DT0RFIjoiIiwiUEFZX1BXRF9GTEFHIjoiWSIsIk1FTUJFUl9MRVZFTCI6IjEiLCJTSVRFIjoiUEFTVEFUUCIsIlZFUklGWV9JRCI6IjA5Mjk4NjU1ODgiLCJTWVNfTEVWRUwiOiJNZW1iZXIifX0.8CptqOETvcvGhI9VTet-H7iJkXFM0WjQf2_eOhiNj7I'
+          description: 會員Token
+      responses:
+        200:
+          description: Success
+  /member/s/sites/{SITE}/transRecord:
+    get:
+      description: 獲取會員的消費紀錄
+      parameters:
+        - in: path
+          name: SITE
+          schema:
+            type: string
+          required: true
+          example: PASTATP
+          description: Site名稱
+        - in: header
+          name: x-app-token
+          schema:
+            type: string
+          required: true
+          example: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MDY3MDE3MzQzMzAsImRhdGEiOnsiSURfTk8iOjExNjU1LCJWRVJJRllfVFlQRSI6NiwiU0VYIjoiRiIsIlZJUF9DT0RFIjoiMDAwMDAwMDAwMSIsIk5BTUUiOiJ5YW5hIiwiQklSVEhEQVkiOiIyMDAwMDEwMSIsIkVNQUlMIjoieWFuYUBiZXRoZWwuY29tLnR3IiwiTU9CSUxFIjoiMDkyOTg2NTU4OCIsIlpJUF9DT0RFIjoiIiwiUEFZX1BXRF9GTEFHIjoiWSIsIk1FTUJFUl9MRVZFTCI6IjEiLCJTSVRFIjoiUEFTVEFUUCIsIlZFUklGWV9JRCI6IjA5Mjk4NjU1ODgiLCJTWVNfTEVWRUwiOiJNZW1iZXIifX0.8CptqOETvcvGhI9VTet-H7iJkXFM0WjQf2_eOhiNj7I'
+          description: 會員Token
+      responses:
+        200:
+          description: Success
+  /member/s/sites/{SITE}/transRecordNoItem:
+    get:
+      description: 獲取會員的消費紀錄，但無商品細節，可搭配transRecordItems優化請求
+      parameters:
+        - in: path
+          name: SITE
+          schema:
+            type: string
+          required: true
+          example: PASTATP
+          description: Site名稱
+        - in: header
+          name: x-app-token
+          schema:
+            type: string
+          required: true
+          example: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MDY3MDE3MzQzMzAsImRhdGEiOnsiSURfTk8iOjExNjU1LCJWRVJJRllfVFlQRSI6NiwiU0VYIjoiRiIsIlZJUF9DT0RFIjoiMDAwMDAwMDAwMSIsIk5BTUUiOiJ5YW5hIiwiQklSVEhEQVkiOiIyMDAwMDEwMSIsIkVNQUlMIjoieWFuYUBiZXRoZWwuY29tLnR3IiwiTU9CSUxFIjoiMDkyOTg2NTU4OCIsIlpJUF9DT0RFIjoiIiwiUEFZX1BXRF9GTEFHIjoiWSIsIk1FTUJFUl9MRVZFTCI6IjEiLCJTSVRFIjoiUEFTVEFUUCIsIlZFUklGWV9JRCI6IjA5Mjk4NjU1ODgiLCJTWVNfTEVWRUwiOiJNZW1iZXIifX0.8CptqOETvcvGhI9VTet-H7iJkXFM0WjQf2_eOhiNj7I'
+          description: 會員Token
+      responses:
+        200:
+          description: Success
+  /member/s/sites/{SITE}/transRecordItems:
+    get:
+      description: 獲取會員的基本資料BY POS帳號
+      parameters:
+        - in: path
+          name: SITE
+          schema:
+            type: string
+          required: true
+          example: PASTATP
+          description: Site名稱
+        - in: header
+          name: x-app-token
+          schema:
+            type: string
+          required: true
+          example: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MDY3MDE3MzQzMzAsImRhdGEiOnsiSURfTk8iOjExNjU1LCJWRVJJRllfVFlQRSI6NiwiU0VYIjoiRiIsIlZJUF9DT0RFIjoiMDAwMDAwMDAwMSIsIk5BTUUiOiJ5YW5hIiwiQklSVEhEQVkiOiIyMDAwMDEwMSIsIkVNQUlMIjoieWFuYUBiZXRoZWwuY29tLnR3IiwiTU9CSUxFIjoiMDkyOTg2NTU4OCIsIlpJUF9DT0RFIjoiIiwiUEFZX1BXRF9GTEFHIjoiWSIsIk1FTUJFUl9MRVZFTCI6IjEiLCJTSVRFIjoiUEFTVEFUUCIsIlZFUklGWV9JRCI6IjA5Mjk4NjU1ODgiLCJTWVNfTEVWRUwiOiJNZW1iZXIifX0.8CptqOETvcvGhI9VTet-H7iJkXFM0WjQf2_eOhiNj7I'
+        - in: query
+          name: tmNo
+          required: true
+          example: '204'
+          schema:
+            type: string
+        - in: query
+          name: stockNo
+          required: true
+          example: '000000'
+          schema:
+            type: string
+        - in: query
+          name: transNo
+          required: true
+          example: '000003'
+          schema:
+            type: string
+        - in: query
+          name: transDay
+          required: true
+          example: '20201013'
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
