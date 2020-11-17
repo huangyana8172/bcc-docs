@@ -7,7 +7,52 @@ servers:
   - url: https://rd.jabezpos.com/api
   - url: https://ec.jabezpos.com/api
 paths:
-
+  #確認電話是否已註冊
+  /retailAPP_VIP/checkMobileCloud/{SITE}:
+    post:
+      description: 確認電話是否已註冊
+      tags:
+        - "註冊會員"
+        - "驗證會員"
+      parameters:
+        - in: path
+          name: SITE
+          schema:
+            type: string
+          required: true
+          example: PASTATP
+          description: Site名稱
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+               VERIFY_ID:
+                type: string
+                example: '0911111111'
+      responses:
+        200:
+          description: 不管怎樣都回成功，但電話已註冊會回exist，如果尚未註冊會回空字串
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                  msgCode:
+                    type: string
+                  msg:
+                    type: string
+                  code:
+                    type: string
+                  data:
+                    enum: 
+                      - ""
+                      - "exist"
+        
   # 註冊
 
   /retailAPP_VIP/registerByVerifyID_member2:
