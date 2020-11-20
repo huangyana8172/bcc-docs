@@ -1,0 +1,51 @@
+openapi: 3.0.1
+info:
+  title: 雲端點餐
+  version: 1.0.0
+servers:
+  - url: http://localhost:12345
+  - url: https://rd.jabezpos.com/api
+  - url: https://ec.jabezpos.com/api
+paths:
+  #確認電話是否已註冊
+  /webmenu/order/history:
+    post:
+      description: 獲得指定會員的購物紀錄
+      tags:
+        - "點單紀錄"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                SITE:
+                  type: string
+                  example: PASTATP
+                STOCK_NO:
+                  type: string
+                  example: '000000'
+                MEMBERID:
+                  type: string
+                  example: '0000000115'
+      responses:
+        200:
+          description: 無說明
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                  msgCode:
+                    type: string
+                  msg:
+                    type: string
+                  code:
+                    type: string
+                  data:
+                    enum: 
+                      - ""
+                      - "exist"
