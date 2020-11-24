@@ -10,7 +10,7 @@ const config = {
         },
         {
             name: '雲端點餐',
-            value: 'webmnenu'
+            value: 'webmenu'
         }
     ]
 }
