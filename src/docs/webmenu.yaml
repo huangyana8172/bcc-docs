@@ -1,0 +1,137 @@
+openapi: 3.0.1
+info:
+  title: 雲端點餐
+  version: 1.0.0
+servers:
+  - url: http://localhost:12345
+  - url: https://rd.jabezpos.com/api
+  - url: https://ec.jabezpos.com/api
+paths:
+  /webmenu/order/history:
+    post:
+      description: 獲得指定會員的購物紀錄
+      tags:
+        - "點單紀錄"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                SITE:
+                  type: string
+                  example: PASTATP
+                STOCK_NO:
+                  type: string
+                  example: '000000'
+                MEMBERID:
+                  type: string
+                  example: '0000000115'
+      responses:
+        200:
+          description: 無說明
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                  msgCode:
+                    type: string
+                  msg:
+                    type: string
+                  code:
+                    type: string
+                  data:
+                    enum: 
+                      - ""
+                      - "exist"
+
+  /webmenu/menu/{SITE}/{STOCK_NO}/category:
+    get:
+      description: 取得商品類別與所屬商品PUL_CODE列表
+      parameters:
+        - in: path
+          name: SITE
+          example: PASTATP
+          description: 商戶代碼
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: STOCK_NO
+          description: 門市編號
+          example: '000000'
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+
+  /webmenu/menu/{SITE}/{STOCK_NO}/product/member/{LEVEL}:
+    get:
+      description: 產品傳入會員等級,回覆不同價格
+      parameters:
+        - in: path
+          name: SITE
+          example: PASTATP
+          description: 商戶代碼
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: STOCK_NO
+          example: '000000'
+          description: 門市編號
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: LEVEL
+          description: 會員等級level
+          example: new
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Product List
+
+  /webmenu/menu/{SITE}/{STOCK_NO}/product/{PLU_CODE}/{LEVEL}:
+    post:
+      description: 以 plu code 取得詳細產品資料
+      parameters:
+        - in: path
+          name: SITE
+          example: PASTATP
+          description: 商戶代碼
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: STOCK_NO
+          example: '000000'
+          description: 門市編號
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: PLU_CODE
+          example: '301'
+          description: 商品編號(PLU_CODE)
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: LEVEL
+          example: new
+          description: 會員等級level
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Product
