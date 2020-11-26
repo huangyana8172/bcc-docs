@@ -7,6 +7,69 @@ servers:
   - url: https://rd.jabezpos.com/api
   - url: https://ec.jabezpos.com/api
 paths:
+
+  #兌換卷列表
+  /retailAPPs_VIP/store/{SITE}/pointTickets:
+    post:
+      description: 列出會員持有的所有兌換卷，若app-id=crm，就要給id_no，不用token
+      tags:
+        - "會員資料"
+      parameters:
+        - in: path
+          name: SITE
+          schema:
+            type: string
+          required: true
+          example: PASTATP
+          description: site名稱
+        - in: header
+          name: x-app-token
+          schema:
+            type: string
+          required: true
+          example: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MTMzNzY5ODQ4OTIsImRhdGEiOnsiSURfTk8iOjExNjU1LCJWRVJJRllfVFlQRSI6NiwiU0VYIjoiRiIsIlZJUF9DT0RFIjoiMDAwMDAwMDAwMSIsIk5BTUUiOiJ5YW5hIiwiQklSVEhEQVkiOiIyMDAwMDEwMSIsIkVNQUlMIjoieWFuYUBiZXRoZWwuY29tLnR3IiwiTU9CSUxFIjoiMDkyOTg2NTU4OCIsIlpJUF9DT0RFIjoiIiwiUEFZX1BXRF9GTEFHIjoiWSIsIk1FTUJFUl9MRVZFTCI6IjIiLCJTSVRFIjoiUEFTVEFUUCIsIlZFUklGWV9JRCI6IjA5Mjk4NjU1ODgiLCJTWVNfTEVWRUwiOiJNZW1iZXIifX0.eP6bQZ0PDAItrV86XoShbJpJMbu-9Nt4UzpddVRcIsY'
+        - in: header
+          name: x-token
+          schema:
+            type: string
+          required: true
+          example: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MTMzNzY5ODQ4OTIsImRhdGEiOnsiSURfTk8iOjExNjU1LCJWRVJJRllfVFlQRSI6NiwiU0VYIjoiRiIsIlZJUF9DT0RFIjoiMDAwMDAwMDAwMSIsIk5BTUUiOiJ5YW5hIiwiQklSVEhEQVkiOiIyMDAwMDEwMSIsIkVNQUlMIjoieWFuYUBiZXRoZWwuY29tLnR3IiwiTU9CSUxFIjoiMDkyOTg2NTU4OCIsIlpJUF9DT0RFIjoiIiwiUEFZX1BXRF9GTEFHIjoiWSIsIk1FTUJFUl9MRVZFTCI6IjIiLCJTSVRFIjoiUEFTVEFUUCIsIlZFUklGWV9JRCI6IjA5Mjk4NjU1ODgiLCJTWVNfTEVWRUwiOiJNZW1iZXIifX0.eP6bQZ0PDAItrV86XoShbJpJMbu-9Nt4UzpddVRcIsY' 
+        - in: header
+          name: x-app-id
+          schema:
+            type: string
+          required: true
+          example: 'member2'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+               ID_NO:
+                type: string
+                example: '11655'
+      responses:
+        200:
+          description: 若沒有兌換卷會回null，有兌換卷會回兌換卷陣列
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                  msgCode:
+                    type: string
+                  msg:
+                    type: string
+                  code:
+                    type: string
+                  data:
+                    type: array
+
+                      
   #確認電話是否已註冊
   /retailAPP_VIP/checkMobileCloud/{SITE}:
     post:
