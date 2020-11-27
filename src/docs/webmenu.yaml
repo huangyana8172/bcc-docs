@@ -135,3 +135,81 @@ paths:
       responses:
         200:
           description: Product
+
+  /webmenu/identity/lineAtWebHook/{SITE}/{STOCK_NO}:
+    post:
+      description: LineAt Webhook
+      tags:
+        - identity
+      parameters:
+        - in: path
+          name: SITE
+          example: PASTATP
+          description: 商戶代碼
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: STOCK_NO
+          example: '000000'
+          description: 門市編號
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                destination:
+                  type: string
+                  example: 'text'
+                events:
+                  type: array
+                  items: 
+                    properties:
+                      message:
+                        type: object
+                        properties:
+                          text:
+                            type: string
+                            example: '123'
+                      mode:
+                        type: string
+                        example: active
+                      timestamp:
+                        type: number
+                        example: 12345
+                      replyToken:
+                        type: string
+                        example: '123'
+                      type:
+                        enum:
+                          - message
+                          - accountLink
+                        example: accountLink
+                      link:
+                        type: object
+                        properties:
+                          result:
+                            enum:
+                              - ok
+                              - failed
+                            example: ok
+                          nonce:
+                            type: string
+                            example: test
+                      source:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                            example: user
+                          userId:
+                            type: string
+                            example: '123'
+      responses:
+        200:
+          description: Product
