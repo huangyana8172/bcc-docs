@@ -7,6 +7,200 @@ servers:
   - url: https://rd.jabezpos.com/api
   - url: https://ec.jabezpos.com/api
 paths:
+  /simplemart/order/{SITE}/{STOCK_NO}:
+    post:
+      description: 送出訂單
+      tags:
+        - "點餐與推播訊息"
+      parameters:
+        - in: path
+          name: SITE
+          example: PASTATP
+          description: 商戶代碼
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: STOCK_NO
+          description: 門市編號
+          example: '000000'
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                CARDID:
+                  type: string
+                  example: ''
+                DESK_NO:
+                  type: string
+                  example: ''
+                ID_NO:
+                  type: string
+                  example: '0'
+                MEMBERID:
+                  type: string
+                  example: 'client_1606449493899372558'
+                NICKNAME:
+                  type: string
+                  example: ''
+                NICKNAMEID:
+                  type: string
+                  example: ''
+                ORDERSID:
+                  type: number
+                  example: null
+                ORDER_FROM:
+                  type: string
+                  example: 'WEBMENU'
+                PAYSTATE:
+                  type: string
+                  example: '0'
+                PAYTYPE:
+                  type: string
+                  example: '101'
+                PNO:
+                  type: string
+                  example: '03'
+                SITE:
+                  type: string
+                  example: 'PASTATP'
+                SOCKET_FLAG:
+                  type: string
+                  example: 'Y'
+                STOCK_NO:
+                  type: string
+                  example: '000000'
+                TICKETS:
+                  type: array
+                  example: []
+                TOGETTYPE:
+                  type: string
+                  example: '0'
+                TOGET_CONTACT:
+                  type: string
+                  example: ''
+                TOGET_MEMO:
+                  type: string
+                  example: ''
+                TOGET_NAME:
+                  type: string
+                  example: ''
+                TOGET_TEL:
+                  type: string
+                  example: ''
+                TOGET_TIME:
+                  type: string
+                  example: ''
+                TYPE:
+                  type: string
+                  example: 'WebMenu.HaveNewOrder'
+                T_DAY:
+                  type: string
+                  example: '20201201'
+                T_TIME:
+                  type: string
+                  example: '104845'
+                T_VIP:
+                  type: string
+                  example: ''
+                JsonOItem:
+                  type: string
+                  example: '[
+                    {
+                      "SITE":"PASTATP",
+                      "STOCK_NO":"000000",
+                      "ORDERSID":null,
+                      "T_DAY":"20201201",
+                      "MENUID":"",
+                      "SEQ_NO":"R_vynJTDR",
+                      "SET_SEQ_NO":"",
+                      "FFDP_NO":"003",
+                      "PLU_CODE":"301",
+                      "QTY":1,
+                      "PRICE":60,
+                      "NOW_PRICE":60,
+                      "img":"https://jabezpos2.s3.amazonaws.com/DBF01/BAS03060/Graph/7492796e-c46b-46ba-bae5-8b61c4e4dca2.jpg",
+                      "PC_NAME":"海鮮清湯",
+                      "TAX_TYPE":"1",
+                      "MEMO":"",
+                      "TASK_NM":"",
+                      "FEEDING_NM":"",
+                      "DATA_TYPE":"2",
+                      "ITEM_TYPE":"1",
+                      "PLU_MAIN":"301",
+                      "TAB":"",
+                      "T_VIP":"",
+                      "PNO1":"03",
+                      "PNO2":""
+                    }
+                  ]'
+      responses:
+        200:
+          description: 無說明
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                  msgCode:
+                    type: string
+                  msg:
+                    type: string
+                  code:
+                    type: string
+                  data:
+                    type: object
+  /webmenu/order/push:
+    post:
+      description: 獲得指定會員的購物紀錄
+      tags:
+        - "點餐與推播訊息"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                SITE:
+                  type: string
+                  example: PASTATP
+                STOCK_NO:
+                  type: string
+                  example: '000000'
+                T_DAY:
+                  type: string
+                  example: ''
+                ORDER_ID:
+                  type: number
+                  example: 0
+      responses:
+        200:
+          description: 無說明
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                  msgCode:
+                    type: string
+                  msg:
+                    type: string
+                  code:
+                    type: string
+                  data:
+                    type: object
+
   /webmenu/order/history:
     post:
       description: 獲得指定會員的購物紀錄
