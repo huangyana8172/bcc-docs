@@ -326,3 +326,89 @@ paths:
       responses:
         200:
           description: Success
+  /retailAPP_VIP/loginByPos:
+    post:
+      description: 登入POS帳號
+      tags:
+        - Line@
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                SITE:
+                  type: string
+                  example: 'PASTATP'
+                USERID:
+                  type: string
+                  example: 'pos@PASTATP'
+                POSMAC:
+                  type: string
+                  example: '12345'
+      responses:
+        200:
+          description: 如果result = OK代表成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                  msgCode:
+                    type: string
+                  msg:
+                    type: string
+                  data:
+                    type: object
+  /linebot/s/message/push:
+    post:
+      description: 推播訊息給指定對象
+      tags:
+        - Line@
+      parameters:
+        - in: header
+          name: x-app-token
+          schema:
+            type: string
+          required: true
+          example: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MTQ1ODcwMjE3MzksImRhdGEiOnsiSURfTk8iOm51bGwsIlZFUklGWV9UWVBFIjpudWxsLCJTRVgiOiIiLCJWSVBfQ09ERSI6IiIsIk5BTUUiOiJwb3NAUEFTVEFUUCIsIkJJUlRIREFZIjoiIiwiRU1BSUwiOiJwYXlwYWxAYmV0aGVsLmNvbS50dyIsIk1PQklMRSI6IiIsIlpJUF9DT0RFIjoiIiwiUEFZX1BXRF9GTEFHIjpudWxsLCJNRU1CRVJfTEVWRUwiOiIiLCJTSVRFIjoiUEFTVEFUUCIsIlNZU19MRVZFTCI6IlBPUyJ9fQ.0-kmNu6dJDTsExscB8ROCvQ4_qRtG8pLFfv7yq_rLHI'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: 'showMemberNonceId'
+                site:
+                  type: string
+                  example: 'PASTATP'
+                stock_no:
+                  type: string
+                  example: '000000'
+                line_id:
+                  type: string
+                  example: 'U32f513f97aa425d54c23a009b41a10c3'
+                images:
+                  type: string
+                  example: ''
+                title:
+                  type: string
+                  example: ''
+                content:
+                  type: string
+                  example: ''
+                fail_message:
+                  type: string
+                  example: ''
+                options:
+                  type: string
+                  example: ''
+      responses:
+        200:
+          description: Success
