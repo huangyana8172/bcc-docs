@@ -7,6 +7,65 @@ servers:
   - url: https://rd.jabezpos.com/api
   - url: https://ec.jabezpos.com/api
 paths:
+  /webmenu/menu/{SITE}/{STOCK_NO}/products:
+      post:
+        description: 送出訂單
+        tags:
+          - "獲取餐點"
+        parameters:
+          - in: path
+            name: SITE
+            example: PASTATP
+            description: 商戶代碼
+            required: true
+            schema:
+              type: string
+          - in: path
+            name: STOCK_NO
+            description: 門市編號
+            example: '000000'
+            required: true
+            schema:
+              type: string
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  MEMBER_LEVEL:
+                    enum:
+                      - '0'
+                      - '1'
+                      - '2'
+                      - '3'
+                    example: 'new'
+                  PLU_CODES:
+                    type: array
+                    items:
+                      type: string
+                    example: ["303", "304"]
+        responses:
+          200:
+            description: 無說明
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    result:
+                      type: string
+                    msgCode:
+                      type: string
+                    msg:
+                      type: string
+                    code:
+                      type: string
+                    data:
+                      type: array
+                      items:
+                        type: object
   /simplemart/order/{SITE}/{STOCK_NO}:
     post:
       description: 送出訂單
@@ -362,7 +421,7 @@ paths:
                   example: 'text'
                 events:
                   type: array
-                  items: 
+                  items:
                     properties:
                       message:
                         type: object
