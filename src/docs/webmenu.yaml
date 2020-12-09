@@ -261,8 +261,54 @@ paths:
                     type: object
 
   /webmenu/order/history:
-    post:
+    get:
       description: 獲得指定會員的購物紀錄
+      tags:
+        - "點單紀錄"
+      parameters:
+        - in: query
+          name: SITE
+          example: PASTATP
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: STOCK_NO
+          example: '000000'
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: MEMBER_ID
+          example: '0000000115'
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: T_DAY
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: 無說明
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                  msgCode:
+                    type: string
+                  msg:
+                    type: string
+                  code:
+                    type: string
+                  data:
+                    type: array
+    post:
+      description: 獲得指定會員的購物紀錄(作廢)
       tags:
         - "點單紀錄"
       requestBody:
