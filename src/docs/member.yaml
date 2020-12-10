@@ -7,6 +7,77 @@ servers:
   - url: https://rd.jabezpos.com/api
   - url: https://ec.jabezpos.com/api
 paths:
+  /member/store/pos/transImport:
+    post:
+      description: 呼叫累積點數
+      tags:
+        - "累積點數"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                SITE:
+                  type: string
+                  example: 'PASTATP'
+                REALTIME:
+                  type: boolean
+                  example: true
+                QUEUE:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      ID_NO:
+                        type: string
+                        example: '11655'
+                      STOCK_NO:
+                        type: string
+                        example: '000000'
+                      TRN_DATE:
+                        type: string
+                        example: '20190812'
+                      TRANS_ID:
+                        type: string
+                        example: '001_000009'
+                      TOTAL:
+                        type: number
+                        example: 320
+                      LOGDATA:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            PLU_CODE:
+                              type: string
+                              example: '001004'
+                            QTY:
+                              type: number
+                              example: 1
+                            AMT:
+                              type: number
+                              example: 80
+      responses:
+        200:
+          description: 結果
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                  msgCode:
+                    type: string
+                  msg:
+                    type: string
+                  code:
+                    type: string
+                  data:
+                    type: object
+
   #確認電話是否已註冊
   /retailAPP_VIP/checkMobileCloud/{SITE}:
     post:
