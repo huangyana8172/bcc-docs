@@ -40,19 +40,120 @@ paths:
             type: string
           required: true
           example: 'member2'
+      responses:
+        200:
+          description: 若沒有兌換卷會回null，有兌換卷會回兌換卷陣列
+
+  /member/store/pos/transImport:
+    post:
+      description: 呼叫累積點數
+      tags:
+        - "累積點數"
       requestBody:
-        required: false
+        required: true
         content:
           application/json:
             schema:
               type: object
               properties:
-               ID_NO:
-                type: string
-                example: '11655'
+                SITE:
+                  type: string
+                  example: 'PASTATP'
+                REALTIME:
+                  type: boolean
+                  example: true
+                QUEUE:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      ID_NO:
+                        type: string
+                        example: '11655'
+                      STOCK_NO:
+                        type: string
+                        example: '000000'
+                      TRN_DATE:
+                        type: string
+                        example: '20201210'
+                      TRN_TIME:
+                        type: string
+                        example: '1047'
+                      TRANS_ID:
+                        type: string
+                        example: '001_000009'
+                      TOTAL:
+                        type: number
+                        example: 320
+                      LOGDATA:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            DATA_TYPE:
+                              type: number
+                              example: 2
+                            ITEM_TYPE:
+                              type: number
+                              example: 1
+                            PLU_CODE:
+                              type: string
+                              example: '001004'
+                            PC_NAME:
+                              type: string
+                              example: '巧克力蛋糕'
+                            QTY:
+                              type: number
+                              example: 1
+                            AMT:
+                              type: number
+                              example: 80
+                            TASK_NM:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  ID:
+                                    type: string
+                                    example: 'a1'
+                                  NAME:
+                                    type: string
+                                    example: '小辣'
+                            FEEDING_NM:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  ID:
+                                    type: string
+                                    example: 'i5'
+                                  NAME:
+                                    type: string
+                                    example: '加麵'
+                                  PRICE:
+                                    type: number
+                                    example: 10
+                            VOLUME:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  ID:
+                                    type: string
+                                    example: 'z3'
+                                  NAME:
+                                    type: string
+                                    example: '大碗'
+                                  PRICE:
+                                    type: number
+                                    example: 10
+                            DP_CODE:
+                              type: string
+                              example: '20'
+                              
       responses:
         200:
-          description: 若沒有兌換卷會回null，有兌換卷會回兌換卷陣列
+          description: 結果
           content:
             application/json:
               schema:
@@ -386,6 +487,92 @@ paths:
           example: '20201013'
           schema:
             type: string
+      responses:
+        200:
+          description: Success
+  /retailAPP_VIP/loginByPos:
+    post:
+      description: 登入POS帳號
+      tags:
+        - Line@
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                SITE:
+                  type: string
+                  example: 'PASTATP'
+                USERID:
+                  type: string
+                  example: 'pos@PASTATP'
+                POSMAC:
+                  type: string
+                  example: '12345'
+      responses:
+        200:
+          description: 如果result = OK代表成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                  msgCode:
+                    type: string
+                  msg:
+                    type: string
+                  data:
+                    type: object
+  /linebot/s/message/push:
+    post:
+      description: 推播訊息給指定對象
+      tags:
+        - Line@
+      parameters:
+        - in: header
+          name: x-app-token
+          schema:
+            type: string
+          required: true
+          example: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MTQ1ODcwMjE3MzksImRhdGEiOnsiSURfTk8iOm51bGwsIlZFUklGWV9UWVBFIjpudWxsLCJTRVgiOiIiLCJWSVBfQ09ERSI6IiIsIk5BTUUiOiJwb3NAUEFTVEFUUCIsIkJJUlRIREFZIjoiIiwiRU1BSUwiOiJwYXlwYWxAYmV0aGVsLmNvbS50dyIsIk1PQklMRSI6IiIsIlpJUF9DT0RFIjoiIiwiUEFZX1BXRF9GTEFHIjpudWxsLCJNRU1CRVJfTEVWRUwiOiIiLCJTSVRFIjoiUEFTVEFUUCIsIlNZU19MRVZFTCI6IlBPUyJ9fQ.0-kmNu6dJDTsExscB8ROCvQ4_qRtG8pLFfv7yq_rLHI'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: 'showMemberNonceId'
+                site:
+                  type: string
+                  example: 'PASTATP'
+                stock_no:
+                  type: string
+                  example: '000000'
+                line_id:
+                  type: string
+                  example: 'U32f513f97aa425d54c23a009b41a10c3'
+                images:
+                  type: string
+                  example: ''
+                title:
+                  type: string
+                  example: ''
+                content:
+                  type: string
+                  example: ''
+                fail_message:
+                  type: string
+                  example: ''
+                options:
+                  type: string
+                  example: ''
       responses:
         200:
           description: Success
